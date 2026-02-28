@@ -1,141 +1,128 @@
+/* Thanh cuộn toàn trang */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #70ddfe, #fcaac4);
+  border-radius: 8px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  transition: background 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #4fc3e8, #f48fb1);
+}
+
+
+
+/* ===== BODY ===== */
 body {
   min-height: 100vh;
   background: linear-gradient(90deg, #70ddfe, #fcaac4);
   font-family: "Segoe UI", sans-serif;
 }
 
-
-/* ===== CARD ===== */
-.content-card {
-  backdrop-filter: blur(12px);
-  background: rgba(255, 255, 255, 0.92);
-  border-radius: 16px;
-  border: none;
-}
-
-.card-body {
-  padding: 30px;
-}
-
-h3 {
-  font-weight: 700;
-  letter-spacing: 0.5px;
-}
-
-/* ===== TEXTAREA ===== */
-textarea {
-  font-size: 16px;
-  border-radius: 12px;
-  resize: none;
-  border: 1px solid #dee2e6;
-}
-
-textarea:focus {
-  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
-}
-
-/* ===== BUTTON ===== */
-#checkBtn {
-  border-radius: 12px;
-  padding: 10px;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-}
-
-/* ===== RESULT ===== */
-#result {
-  margin-top: 20px;
-  font-size: 18px;
-  line-height: 1.8;
-}
-
-/* ===== WRONG WORD ===== */
-.wrong {
-  color: #dc3545;
-  font-weight: 600;
-  font-size: 14px;
-  text-decoration: underline;
-  cursor: pointer;
-}
-
-.wrong:hover {
-  color: #b02a37;
-}
-
-/* ===== SUGGESTION ===== */
-.suggestion {
-  color: #0d6efd;
-  margin-left: 6px;
-  font-size: 14px;
-  opacity: 0.85;
-}
-
 /* ===== NAVBAR ===== */
 .navbar {
   backdrop-filter: blur(16px) saturate(180%);
-  -webkit-backdrop-filter: blur(16px) saturate(180%);
   background: rgba(0, 0, 0, 0.18) !important;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
 }
 
 .navbar-brand {
   letter-spacing: 1px;
+  color: #191a19;
+  font-family: 'Courier New', monospace;
 }
 
-
-/* nhảy nhẹ */
-@keyframes jump {
-
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-
-  50% {
-    transform: translateY(-4px);
-  }
-}
-
-.rainbow-jump {
-  transition: transform 0.3s ease;
-}
-
-.rainbow-jump:hover {
-  animation: rainbow 1.2s linear infinite;
-  transform: translateY(-6px) scale(1.05);
-}
-
-.baoquat {
-  border: 8px solid transparent;
+/* ===== FEATURE BOX ===== */
+.feature-box {
+  background: linear-gradient(135deg, #ffffff, #f3f9ff);
   border-radius: 24px;
-  background:
-    linear-gradient(#fff, #fff) padding-box,
-    linear-gradient(135deg, #9ecbff, #f7b2c4) border-box;
+  padding: 78px 20px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+  margin-bottom: 32px;
+  position: relative;
 }
 
+.feature-box::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 24px;
+  padding: 3px;
+  background: linear-gradient(135deg, #8fd3f4, #fbc2eb);
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  pointer-events: none;
+}
 
-.btn-gradient {
-  background: linear-gradient(135deg, #9ecbff, #f7b2c4);
-  border: none;
-  color: #fff;
+/* ===== BUTTON WRAP ===== */
+.btn-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  align-items: center;
+}
+
+.btn-wrap>div {
+  width: 100%;
+  max-width: 360px;
+}
+
+/* ===== BUTTON BASE ===== */
+.btn-gradient2 {
+  border-radius: 14px;
   font-weight: 600;
   font-size: 1.1rem;
-  padding: 12px;
-  border-radius: 12px;
   transition: all 0.25s ease;
+  color: #000;
 }
 
-.btn-gradient:hover {
-  background: linear-gradient(135deg, #8abcf5, #f39ab5);
-  transform: translateY(-1px);
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
-  color: #fff;
-  text-shadow:
-    0 0 6px rgba(255, 255, 255, 0.9),
-    0 0 12px rgba(255, 255, 255, 0.7),
-    0 0 20px rgba(255, 255, 255, 0.5);
+/* màu từng nút */
+.link1 {
+  background: #fa9c9c;
 }
 
-.btn-gradient:active {
-  transform: scale(0.98);
+.link2 {
+  background: #c8f89b;
+}
+
+.link3 {
+  background: #f6b899;
+}
+
+
+.btn-gradient2:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  color: #000;
+  text-shadow: none;
+}
+
+/* ===== TEXT INTRO ===== */
+.intro-text {
+  background: rgba(255, 255, 255, 0.88);
+  padding: 20px 26px;
+  border-radius: 18px;
+  font-size: 16px;
+  line-height: 1.9;
+  color: #333;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  text-align: center;
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+.intro-text strong {
+  color: #0d6efd;
+  font-size: 18px;
 }

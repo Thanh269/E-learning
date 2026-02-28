@@ -1,3 +1,4 @@
+const premiumExercises = [4, 5, 6];
 const exercises = [
   {
     id: 1,
@@ -85,7 +86,7 @@ If we have a healthy lifestyle, we will feel ___ (3) and study better at school.
         options: { A: "tired", B: "weak", C: "happy ", D: "bored" },
         answer: "C"
       },
-    
+
     ]
   },
   {
@@ -117,9 +118,85 @@ My best friend ___ (4) a lot of photos, and our teacher ___ (5) us very happy.
         options: { A: "take", B: "takes", C: "took ", D: "taking" },
         answer: "C"
       },
-       {
+      {
         id: 5,
         options: { A: "makes", B: "made ", C: "make", D: "making" },
+        answer: "B"
+      }
+    ]
+  },
+  {
+    id: 5,
+    title: "PRESENT CONTINUOUS",
+    text: `
+It is 7 p.m. now. My family ___ (1) dinner together in the kitchen.
+My mother ___ (2) soup, and my father ___ (3) TV in the living room.
+I ___ (4) my homework, while my sister ___ (5) music in her bedroom.
+    `,
+    questions: [
+      {
+        id: 1,
+        options: { A: "is having", B: "has", C: "having", D: "are having" },
+        answer: "D"
+      },
+      {
+        id: 2,
+        options: { A: "cooks", B: "is cooking ", C: "cooked", D: "cooking" },
+        answer: "B"
+      },
+      {
+        id: 3,
+        options: { A: "watches", B: "watch", C: "is watching ", D: "watched" },
+        answer: "C"
+      },
+      {
+        id: 4,
+        options: { A: "do", B: "did", C: " am doing ", D: "doing " },
+        answer: "C"
+      },
+      {
+        id: 5,
+        options: { A: "listens", B: "listened ", C: "is listening to", D: "listening" },
+        answer: "C"
+      }
+    ]
+  }, {
+    id: 6,
+    title: " FIRST CONDITIONAL",
+    text: `
+If it ___ (1) tomorrow, we ___ (2) at home and study together.
+If you ___ (3) hard, you ___ (4) good marks in the final test.
+Our teacher says that if we ___ (5) careful, we ___ (6) mistakes in our exams.
+    `,
+    questions: [
+      {
+        id: 1,
+        options: { A: "will rain", B: "raining", C: "rains ", D: "rained" },
+        answer: "C"
+      },
+      {
+        id: 2,
+        options: { A: "stay", B: "stayed", C: "staying", D: "will stay" },
+        answer: "B"
+      },
+      {
+        id: 3,
+        options: { A: "study ", B: "will study", C: "studied", D: "studying" },
+        answer: "A"
+      },
+      {
+        id: 4,
+        options: { A: "get", B: "getting", C: "got ", D: "will get " },
+        answer: "D"
+      },
+      {
+        id: 5,
+        options: { A: "are ", B: "will be ", C: "were", D: "being" },
+        answer: "A"
+      },
+      {
+        id: 6,
+        options: { A: "make", B: "will make", C: "made ", D: "making" },
         answer: "B"
       }
     ]
@@ -130,9 +207,20 @@ const exerciseSelect = document.getElementById("exerciseSelect");
 exercises.forEach((ex, i) => {
   const option = document.createElement("option");
   option.value = i;
-  option.textContent = ex.title;
+
+  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+  const isPremiumUser = currentUser?.isPremium;
+
+  if (premiumExercises.includes(ex.id) && !isPremiumUser) {
+    option.textContent = ex.title + " (Premium)";
+    option.disabled = true;
+  } else {
+    option.textContent = ex.title;
+  }
+
   exerciseSelect.appendChild(option);
 });
+
 exerciseSelect.addEventListener("change", e => {
   currentIndex = Number(e.target.value);
   current = exercises[currentIndex];
@@ -170,16 +258,16 @@ function renderQuestion() {
   <strong>Question ${q.id}</strong>
     <div class="question-box">
       ${Object.entries(q.options)
-        .map(
-          ([key, val]) => `
+      .map(
+        ([key, val]) => `
         <label class="option">
           <input type="radio" name="q${q.id}" value="${key}"
             ${userAnswers[q.id] === key ? "checked" : ""}>
           <span>${key}. ${val}</span>
         </label>
       `
-        )
-        .join("")}
+      )
+      .join("")}
     </div>
   `;
 
@@ -227,7 +315,7 @@ function applyColors(q) {
     // chọn sai → đỏ
     if (
       selectedValue &&
-      opt.value === selectedValue &&  
+      opt.value === selectedValue &&
       selectedValue !== q.answer
     ) {
       label.style.color = "red";
@@ -268,12 +356,36 @@ checkBtn.addEventListener("click", () => {
   });
 
   const percent = Math.round((correct / total) * 100);
-
   renderQuestion();
 
-  resultBox.innerHTML = `
-    ✅ Correct ${correct} / ${total} <br>
-    📊 Score: ${percent}%
-  `;
+  // ===== ĐÁNH GIÁ =====
+  let color = "bg-danger";
+  let icon = `<i class="bi bi-x-circle-fill text-danger"></i>`;
+  let text = "Needs improvement";
+
+  if (percent >= 80) {
+    color = "bg-success";
+    icon = `<i class="bi bi-check-circle-fill text-success"></i>`;
+    text = "Excellent performance";
+  } else if (percent >= 50) {
+    color = "bg-warning";
+    icon = `<i class="bi bi-exclamation-circle-fill text-warning"></i>`;
+    text = "Satisfactory result";
+  }
+
+  // ===== GÁN DỮ LIỆU =====
+  document.getElementById("scoreIcon").innerHTML = icon;
+  document.getElementById("scorePercent").innerText = `${percent}%`;
+  document.getElementById("scoreDetail").innerText =
+    `Correct answers: ${correct} / ${total} — ${text}`;
+
+  const bar = document.getElementById("scoreBar");
+  bar.className = `progress-bar ${color}`;
+  bar.style.width = percent + "%";
+
+  // ===== Hiện modal =====
+  const modal = new bootstrap.Modal(
+    document.getElementById("scoreModal")
+  );
+  modal.show();
 });
-  
