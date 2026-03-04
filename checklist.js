@@ -1,14 +1,14 @@
 const videos = [
   {
     youtubeId: "rooyX8r8xmw",
-    question: "What does the speaker want to do?",
+    question: "What is the main theme of the song?",
     answers: {
-      A: "Go to school",
-      B: "Learn English",
-      C: "Play football",
-      D: "Watch TV"
+      A: "Friendship",
+      B: "Family relationships",
+      C: "Romantic love and emotional pain",
+      D: "Adventure"
     },
-    correct: "B"
+    correct: "C"
   },
   {
     youtubeId: "5MgBikgcWnY",
